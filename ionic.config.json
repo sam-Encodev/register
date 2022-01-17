@@ -1,0 +1,7 @@
+{
+  "name": "Elim Register",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
