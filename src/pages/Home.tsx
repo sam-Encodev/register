@@ -1,60 +1,27 @@
-import MessageListItem from '../components/MessageListItem';
-import { useState } from 'react';
-import { Message, getMessages } from '../data/messages';
-import {
-  IonContent,
-  IonHeader,
-  IonList,
-  IonPage,
-  IonRefresher,
-  IonRefresherContent,
-  IonTitle,
-  IonToolbar,
-  useIonViewWillEnter
-} from '@ionic/react';
-import './Home.css';
+import { useState } from "react";
+import { IonContent, IonPage, IonToast } from "@ionic/react";
+import "./Home.css";
 
 const Home: React.FC = () => {
+	const [showToast1, setShowToast1] = useState(false);
 
-  const [messages, setMessages] = useState<Message[]>([]);
-
-  useIonViewWillEnter(() => {
-    const msgs = getMessages();
-    setMessages(msgs);
-  });
-
-  const refresh = (e: CustomEvent) => {
-    setTimeout(() => {
-      e.detail.complete();
-    }, 3000);
-  };
-
-  return (
-    <IonPage id="home-page">
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Inbox</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent fullscreen>
-        <IonRefresher slot="fixed" onIonRefresh={refresh}>
-          <IonRefresherContent></IonRefresherContent>
-        </IonRefresher>
-
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">
-              Inbox
-            </IonTitle>
-          </IonToolbar>
-        </IonHeader>
-
-        <IonList>
-          {messages.map(m => <MessageListItem key={m.id} message={m} />)}
-        </IonList>
-      </IonContent>
-    </IonPage>
-  );
+	return (
+		<IonPage id="home-page">
+			<IonContent fullscreen>
+				<div className="popup-wrapper ">
+					<button className="popup" onClick={() => setShowToast1(true)}>
+						<p> Show Toast 1</p>
+					</button>
+				</div>
+				<IonToast
+					isOpen={showToast1}
+					onDidDismiss={() => setShowToast1(false)}
+					message="Your settings have been saved."
+					duration={200}
+				/>
+			</IonContent>
+		</IonPage>
+	);
 };
 
 export default Home;
